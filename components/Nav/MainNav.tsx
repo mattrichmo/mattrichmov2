@@ -39,3 +39,6 @@ export function MainNav({ items }: MainNavProps) {
     </div>
   )
 }
+
+
+export default MainNav
