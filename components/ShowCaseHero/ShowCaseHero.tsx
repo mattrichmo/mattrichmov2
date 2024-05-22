@@ -46,11 +46,11 @@ const images = {
 
 
 const ShowCaseHero = () => {
-  const containerRef = useRef();
+  const containerRef = useRef(null);
 
   useGSAP(() => {
     gsap.registerPlugin(ScrollTrigger, ScrollSmoother);
-
+  
     // Ensure the ScrollSmoother is attached to a valid element
     if (containerRef.current) {
       const smoother = ScrollSmoother.create({
@@ -60,11 +60,11 @@ const ShowCaseHero = () => {
         smoothTouch: 0.1,
         content: containerRef.current // Use the current value of the ref
       });
-
+  
       // Logo and paths animations
       let paths = gsap.utils.toArray("#logo-scroll path, #logo-smoother path, #logo-mouse");
       let distPaths = gsap.utils.distribute({ base: -300, amount: 600 });
-
+  
       let heroTl = gsap.timeline({
         scrollTrigger: {
           trigger: ".hero-section",
@@ -73,10 +73,10 @@ const ShowCaseHero = () => {
           end: "bottom center"
         }
       });
-
+  
       heroTl.to(paths, { x: distPaths })
-            .to([...paths,], { opacity: 0 }, 0);
-
+            .to(paths, { opacity: 0 }, 0);
+  
       // Grid animations
       let gridTl = gsap.timeline({
         scrollTrigger: {
@@ -89,12 +89,12 @@ const ShowCaseHero = () => {
           ease: "power1.inOut"
         }
       });
-
+  
       gridTl.add("start")
             .from(".grid-layout", { ease: "power1", scale: 3 }, "start")
             .from(".column-1 .grid-image", { duration: 0.6, xPercent: i => -((i + 1) * 40 + i * 100), yPercent: i => (i + 1) * 40 + i * 100 }, "start")
             .from(".column-3 .grid-image", { duration: 0.6, xPercent: i => (i + 1) * 40 + i * 100, yPercent: i => (i + 1) * 40 + i * 100 }, "start");
-
+  
       // Parallax animation
       gsap.from(".parallax-section2", {
         scale: 1 / 3,
@@ -103,27 +103,34 @@ const ShowCaseHero = () => {
           scrub: 1
         }
       });
-
+  
       // Pinning animations
       let pinSection = document.querySelector(".pin-section");
-      let pinContent1 = document.querySelector(".pin-content-1");
-      let pinContent2 = document.querySelector(".pin-content-2");
-
-      let pinTl = gsap.timeline({
-        scrollTrigger: {
-          pin: true,
-          trigger: pinSection,
-          scrub: true,
-          start: "top top",
-          end: () => `$+=${pinContent1.offsetWidth}`,
-          invalidateOnRefresh: true
-        }
-      });
-
-      pinTl.fromTo(".pin-content-1", { x: () => document.body.clientWidth * 0.9 }, { x: () => -(pinContent1.offsetWidth), ease: "none" }, 0)
-           .fromTo(".pin-content-2", { x: () => -pinContent2.offsetWidth + document.body.clientWidth * 0.1 }, { x: () => document.body.clientWidth, ease: "none" }, 0);
+      let pinContent1 = document.querySelector(".pin-content-1") as HTMLElement;
+      let pinContent2 = document.querySelector(".pin-content-2") as HTMLElement;
+  
+      if (pinSection && pinContent1 && pinContent2) {
+        let pinTl = gsap.timeline({
+          scrollTrigger: {
+            pin: true,
+            trigger: pinSection,
+            scrub: true,
+            start: "top top",
+            end: () => `+=${pinContent1.offsetWidth}`,
+            invalidateOnRefresh: true
+          }
+        });
+  
+        pinTl.fromTo(".pin-content-1", 
+                     { x: () => document.body.clientWidth * 0.9 }, 
+                     { x: () => -(pinContent1.offsetWidth), ease: "none" }, 0)
+             .fromTo(".pin-content-2", 
+                     { x: () => -pinContent2.offsetWidth + document.body.clientWidth * 0.1 }, 
+                     { x: () => document.body.clientWidth, ease: "none" }, 0);
+      }
     }
   }, { scope: containerRef });
+  
 
   return (
     <div ref={containerRef} id="smooth-wrapper">
