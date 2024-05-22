@@ -89,6 +89,28 @@ const ShowCaseHero = () => {
           ease: "power1.inOut"
         }
       });
+
+           // Spread word animations
+           const spreadWordTl = gsap.timeline({
+            scrollTrigger: {
+              trigger: ".hero-section",
+              scrub: 1,
+              start: "bottom 95%",
+              end: "bottom center"
+            }
+          });
+    
+          gsap.utils.toArray(".word").forEach(word => {
+            gsap.utils.toArray(word.children).forEach((letter, index) => {
+              spreadWordTl.from(letter, {
+                opacity: 0,
+                x: Math.random() * 100 - 50,
+                y: Math.random() * 100 - 50,
+                duration: 0.5,
+                ease: "power1.inOut"
+              }, index * 0.05);
+            });
+          });
   
       gridTl.add("start")
             .from(".grid-layout", { ease: "power1", scale: 3 }, "start")
@@ -135,10 +157,13 @@ const ShowCaseHero = () => {
   return (
     <div ref={containerRef} id="smooth-wrapper">
       <div id="smooth-content">
-
-        <section className="hero-section">
-          <img className="parallax-image" src={images.parallax[0]} data-speed="1" alt=""></img>
-        </section>
+<section className="hero-section flex items-center justify-center text-center">
+  <div className="absolute z-10">
+    <h1 className="text-6xl font-bold text-white">Matt Richmond</h1>
+    <p className="text-sm text-white">Photographer and creative</p>
+  </div>
+  <img className="parallax-image" src={images.parallax[0]} data-speed="1" alt=""></img>
+</section>
 
         <div className="grid-section">
           <div className="grid-layout">
