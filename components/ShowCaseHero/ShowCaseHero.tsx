@@ -89,28 +89,6 @@ const ShowCaseHero = () => {
           ease: "power1.inOut"
         }
       });
-
-           // Spread word animations
-           const spreadWordTl = gsap.timeline({
-            scrollTrigger: {
-              trigger: ".hero-section",
-              scrub: 1,
-              start: "bottom 95%",
-              end: "bottom center"
-            }
-          });
-    
-          gsap.utils.toArray(".word").forEach(word => {
-            gsap.utils.toArray(word.children).forEach((letter, index) => {
-              spreadWordTl.from(letter, {
-                opacity: 0,
-                x: Math.random() * 100 - 50,
-                y: Math.random() * 100 - 50,
-                duration: 0.5,
-                ease: "power1.inOut"
-              }, index * 0.05);
-            });
-          });
   
       gridTl.add("start")
             .from(".grid-layout", { ease: "power1", scale: 3 }, "start")
