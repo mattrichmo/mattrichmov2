@@ -10,7 +10,6 @@
  * @author: Jack Doyle, jack@greensock.com
  */
 
-const currentSite = window.location.hostname;
 
 let e, t, r, o, s, i, n, a, l, c, d, h, f, g, p, u = () => "undefined" != typeof window,
     m = () => e || u() && (e = window.gsap) && e.registerPlugin && e,
